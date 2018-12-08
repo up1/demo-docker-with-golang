@@ -1,0 +1,9 @@
+FROM golang:1.11.2-alpine3.8
+RUN apk update && apk add gcc git 
+WORKDIR /xxx
+COPY go.mod .
+COPY . .
+RUN go build ./...
+RUN go test ./...
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+CMD ["./app"]
